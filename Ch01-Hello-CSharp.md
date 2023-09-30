@@ -1,4 +1,4 @@
-# C# Notes
+# Hello CSharp (C#)
 
 ## Creating Console Apps with Visual Studio Code
 
@@ -120,4 +120,3 @@ side by side as you edit them:
 1. In EXPLORER, expand the two projects.
 2. Open both Program.cs files from the two projects.
 3. Click, hold, and drag the edit window tab for one of your open files to arrange them so that you can see both files at the same time.
-
