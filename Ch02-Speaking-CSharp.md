@@ -343,3 +343,334 @@ Booleans can only contain one of the two literal values true or false, as shown 
 They are most commonly used to branch and loop.
 
 ## Storing any type of object
+
+There is a special type named ``object`` that can store any type of data, but its flexibility comes at the cost of messier code and possibly poor performance. Because of those two reasons, you should avoid it whenever possible. The following steps show how to use object types if you need to use them:
+
+```csharp
+    object height = 1.88; // storing a double in an object
+    object name = "Amir"; // storing a string in an object
+    
+    Console.WriteLine($"{name} is {height} metres tall.");
+    
+    // int length1 = name.Length; // gives compile error!
+    int length2 = ((string)name).Length; // tell compiler it is a string
+    Console.WriteLine($"{name} has {length2} characters.");
+```
+
+Result:
+
+> Amir is 1.88 metres tall.     
+> Amir has 4 characters.
+
+## Storing dynamic types
+
+There is another special type named ``dynamic`` that can also store any type of data, but even more than object, its flexibility comes at the cost of performance. The dynamic keyword was introduced in C# 4.0. However, unlike object, the value stored in the variable can have its members invoked without an explicit cast. Let's make use of a dynamic type:
+
+```csharp
+    // storing a string in a dynamic object
+    // string has a Length property
+    dynamic something = "Ahmed";
+    
+    // int does not have a Length property
+    // something = 12;
+    // an array of any type has a Length property
+    // something = new[] { 3, 5, 7 }
+    
+    // this compiles but would throw an exception at run-time
+    // if you later store a data type that does not have a
+    // property named Length
+    Console.WriteLine($"Length is {something.Length}");
+```
+
+> Length is 5
+
+Now, try this.
+
+```csharp
+    // storing a string in a dynamic object
+    // string has a Length property
+    dynamic something = "Ahmed  
+    
+    // int does not have a Length property
+    something = 12;
+    
+    // an array of any type has a Length property
+    // something = new[] { 3, 5, 7 }
+
+    // this compiles but would throw an exception at run-time
+    // if you later store a data type that does not have a
+    // property named Length
+    Console.WriteLine($"Length is {something.Length}");
+```
+
+This compiles but throws the runtime error.
+
+> Unhandled exception. Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: 'int' does not contain a definition for 'Length'
+
+Now, try an array and this does have a property named Length.
+
+```csharp
+    // storing a string in a dynamic object
+    // string has a Length property
+    dynamic something = "Ahmed";
+
+    // int does not have a Length property
+    // something = 12;
+
+    // an array of any type has a Length property
+    something = new[] { 3, 5, 7 };
+
+    // this compiles but would throw an exception at run-time
+    // if you later store a data type that does not have a
+    // property named Length
+    Console.WriteLine($"Length is {something.Length}");
+```
+
+> Length is 3
+
+One limitation of dynamic is that code editors cannot show *IntelliSense* to help you write the code. This is because the compiler cannot check what the type is during build time. Instead, the CLR checks for the member at runtime and throws an exception if it is missing.
+
+## Declaring local variables
+
+Local variables are declared inside methods, and they only exist during the execution of that method, and once the method returns, the memory allocated to any local variables is released. Strictly speaking, value types are released while reference types must wait for a garbage collection.
+
+### Specifying the type of a local variable
+
+```csharp
+    int population = 66_000_000; // 66 million in UK
+    double weight = 1.88; // in kilograms
+    decimal price = 4.99M; // in pounds sterling
+    string fruit = "Apples"; // strings use double-quotes
+    char letter = 'Z'; // chars use single-quotes
+    bool happy = true; // Booleans have value of true or false
+```
+
+### Inferring the type of a local variable
+
+You can use the var keyword to declare local variables. The compiler will infer the type from the value that you assign after the assignment operator, =.
+
+A literal number without a decimal point is inferred as an int variable, that is, unless you add a suffix, as described in the following list:
+
+* L: infers long
+* UL: infers ulong
+* M: infers decimal
+* D: infers double
+* F: infers float
+
+A literal number with a decimal point is inferred as double unless you add the ``M`` suffix, in which case, it infers a decimal variable, or the F suffix, in which case, it infers a float variable.
+
+Double quotes indicate a string variable, single quotes indicate a char variable, and the true and false values infer a bool type:
+
+Modify the previous statements to use var, as shown in the following code:
+
+```csharp
+    var population = 66_000_000; // 66 million in UK
+    var weight = 1.88; // in kilograms
+    var price = 4.99M; // in pounds sterling
+    var fruit = "Apples"; // strings use double-quotes
+    var letter = 'Z'; // chars use single-quotes
+    var happy = true; // Booleans have value of true or false
+```
+
+Hover your mouse over each of the ``var`` keywords and note that your code editor shows a tooltip with information about the type that has been inferred.
+
+Add the following using statement to your code.
+
+```csharp
+    using System.Xml;
+```
+
+Now, add this code.
+
+```csharp
+    // good use of var because it avoids the repeated type
+    // as shown in the more verbose second statement
+    var xml1 = new XmlDocument();
+    XmlDocument xml2 = new XmlDocument();
+    
+    // bad use of var because we cannot tell the type
+    var file1 = File.CreateText("something1.txt");
+    
+    // better to spell it out
+    StreamWriter file2 = File.CreateText("something2.txt");
+```
+
+**Good Practice:** Although using ``var`` is convenient, some developers avoid using it, to make it easier for a code reader to understand the types in use. Personally, I use it only when the type is obvious. For example, in the preceding code statements, the first statement is just as clear as the second in stating what the type of the xml variables are,
+but it is shorter. However, the third statement isn't clear in showing the type of the file variable, so the fourth is better because it shows that the type is StreamWriter. 
+
+**If in doubt, spell it out!**
+
+## Using target-typed new to instantiate objects
+
+With C# 9, Microsoft introduced another syntax for instantiating objects known as target-typed ``new``. When instantiating an object, you can specify the type first and then use new without repeating the type, as shown in the following code:
+
+```csharp
+    XmlDocument xml3 = new(); // target-typed new in C# 9 or later 
+```
+
+If you have a type with a field or property that needs to be set, then the type can be inferred, as shown in the following code:
+
+```csharp
+    class Person
+    {
+        public DateTime BirthDate;
+    }
+
+    Person kim = new();
+    kim.BirthDate = new(1967, 12, 26); // instead of: new DateTime(1967, 12, 26)
+```
+
+**Good Practice:** Use target-typed ``new`` to instantiate objects unless you must use a pre-version 9 C# compiler.
+
+## Getting and setting the default values for types
+
+Most of the primitive types except string are **value types**, which means that they must have a value. You can determine the default value of a type by using the default() operator and passing the type as a parameter. You can assign the default value of a type by using the ``default`` keyword.
+
+The string type is a **reference type**. This means that string variables contain the memory address of a value, not the value itself. A reference type variable can have a null value, which is a literal that indicates that the variable does not reference anything (yet). ``null`` is the default for all reference types.
+
+Let's explore default values:
+
+```csharp
+    Console.WriteLine($"default(int) = {default(int)}");
+    Console.WriteLine($"default(bool) = {default(bool)}");
+    Console.WriteLine($"default(DateTime) = {default(DateTime)}");
+    Console.WriteLine($"default(string) = {default(string)}");
+```
+
+Returns:
+
+> default(int) = 0      
+> default(bool) = False     
+> default(DateTime) = 1/01/0001 12:00:00 AM     
+> default(string) =
+
+Now, declare a number.
+
+```csharp
+    int number = 13;
+    Console.WriteLine($"number has been set to: {number}");
+    number = default;
+    Console.WriteLine($"number has been reset to its default: {number}");
+```
+
+Returns:
+
+> number has been set to: 13        
+> number has been reset to its default: 0
+
+## Storing multiple values in an array
+
+When you need to store multiple values of the same type, you can declare an array. For example, you may do this when you need to store four names in a string array. The code that you will write next will allocate memory for an array for storing four string values. It will then store string values at index positions 0 to 3 (arrays usually have a lower bound of zero, so the index of the last item is one less than the length of the array).
+
+Let's look at how to use an array:
+
+```csharp
+    string[] names; // can reference any size array of strings
+    
+    // allocating memory for four strings in an array
+    names = new string[4];
+    
+    // storing items at index positions
+    names[0] = "Kate";
+    names[1] = "Jack";
+    names[2] = "Rebecca";
+    names[3] = "Tom";
+
+    // looping through the names
+    for (int i = 0; i < names.Length; i++)
+    {
+        // output the item at index position i
+        Console.WriteLine(names[i]);
+    }
+```
+
+Returns:
+
+> Kate      
+> Jack      
+> Rebecca       
+> Tom
+
+Arrays are always of a fixed size at the time of memory allocation, so you need to decide how many items you want to store before instantiating them.
+
+An alternative to defining the array in three steps as above is to use array initializer syntax, as shown in the following code:
+
+```csharp
+    string[] names2 = new[] { "Kate", "Jack", "Rebecca", "Tom" };
+```
+
+When you use the ``new[]`` syntax to allocate memory for the array, you must have at least one item in the curly braces so that the compiler can infer the data type.
+
+Arrays are useful for temporarily storing multiple items, but **collections** are a more flexible option when adding and removing items dynamically.
+
+## Exploring more about console applications
+
+We have already created and used basic console applications, but we're now at a stage where we should delve into them more deeply.
+
+Console applications are text-based and are run at the command line. They typically perform simple tasks that need to be scripted, such as compiling a file or encrypting a section of a configuration file.
+
+Equally, they can also have arguments passed to them to control their behavior.
+
+An example of this would be to create a new console app using the C# language with a specified name instead of using the name of the current folder, as shown in the following command line:
+
+```cmd
+    dotnet new console -lang "C#" --name "ExploringConsole"
+```
+
+This code makes a ned folder named ``ExploringConsole`` with the contents of a new C# project in it.
+
+Add this code.
+
+```csharp
+    int numberOfApples = 12;
+    decimal pricePerApple = 0.35M;
+    
+    Console.WriteLine(format: "{0} apples costs {1:C}", arg0: numberOfApples, arg1: pricePerApple * numberOfApples);
+
+    string formatted = string.Format(format: "{0} apples costs {1:C}", arg0: numberOfApples, arg1: pricePerApple * numberOfApples);
+
+    //WriteToFile(formatted); // writes the string into a file - nonexistent method
+```
+
+You can simplify this with.
+
+```csharp
+    int numberOfApples = 12;
+    decimal pricePerApple = 0.35M;
+
+    Console.WriteLine("{0} apples costs {1:C}", numberOfApples, pricePerApple * numberOfApples);
+
+    string formatted = string.Format("{0} apples costs {1:C}", numberOfApples, pricePerApple * numberOfApples);
+
+    // WriteToFile(formatted); // writes the string into a file
+```
+
+## Formatting using interpolated strings
+
+C# 6.0 and later have a handy feature named interpolated strings. A string prefixed with ``$`` can use curly braces around the name of a variable or expression to output the current value of that variable or expression at that position in the string, as the following shows:
+
+Enter this statement into your code.
+
+```csharp
+    Console.WriteLine($"{numberOfApples} apples costs {pricePerApple * numberOfApples:C}");
+```
+
+For short, formatted string values, an interpolated string can be easier for people to read. But for code examples in a book, where lines need to wrap over multiple lines, this can be tricky.
+
+Another reason to avoid interpolated strings is that they can't be read from resource files to be localized.
+
+Before C# 10, string constants could only be combined by using concatenation, as shown in the following code:
+
+```csharp
+    private const string firstName = "Omar";
+    private const string lastName = "Rudberg";
+    private const string fullName = firstName + " " + lastName;
+```
+
+With C# 10, interpolated strings can now be used, as shown in the following code:
+
+```csharp
+    private const string fullName = "{firstName} {lastName}";
+```
+
+This only works for combining string constant values. It cannot work with other types like numbers that would require runtime data type conversions.
