@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Ch 01 - Hello C#</title>
+<link href="assets/css/bootstrap.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="assets/css/starter-template.css" rel="stylesheet">
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=css&amp;skin=sunburst"></script>
+<style type="text/css">
+html {
+	font-size: 90.0%;
+}
+
+h2 {
+	margin-top: 60px;
+}
+
+h4, h3 {
+	padding-top: 40px!;		
+}
+
+p {
+	font-size: 1.2em;
+}
+h4 {
+	font-size: 1.4em;
+}
+
+img, pre.prettyprint {
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+    color:#007bff;
+
+}
+blockquote {
+    border-left: 4px solid #999;
+    padding-left: 1rem;
+    page-break-inside: avoid;
+}
+</style>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">C# 10 and .Net 6.0 - Cross Platform Development</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Hello C# <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container">
+    <div class="starter-template">
+
+
+<h1 id="speaking-csharp-c">Chapter 1 - Hello C#</h1>
+<h2 id="creating-console-apps-with-visual-studio-code">Creating Console Apps with Visual Studio Code</h2>
+<p>We will create a console application from the command line.</p>
+<p>Create a new folder.</p>
+<pre class="prettyprint"><code><div>	<span class="hljs-built_in">md</span> VSCode
+</div></code></pre>
+<p>Now, inside this another folder.</p>
+<pre class="prettyprint"><code><div>	<span class="hljs-built_in">md</span> HelloCS
+</div></code></pre>
+<p>Now, inside <code>HelloCS</code> run the following command.</p>
+<pre class="prettyprint"><code><div>	dotnet new console -f net5.<span class="hljs-number">0</span>
+</div></code></pre>
+<p>This is  the old legacy .Net Framework version of the console program.</p>
+<p>It creates the following in the folder. The application is named after to folder name. In my case I named the folder <code>HelloCS</code> so the project will be named <code>HelloCS.csproj</code>.</p>
+<ul>
+<li>Program.cs</li>
+<li>HelloCS.csproj</li>
+<li>obj</li>
+</ul>
+<p>Contents of the Program.cs file</p>
+<pre class="prettyprint"><code><div>	<span class="hljs-keyword">using</span> System;
+	
+	<span class="hljs-keyword">namespace</span> <span class="hljs-title">HelloCS</span>
+	{
+		<span class="hljs-keyword">class</span> <span class="hljs-title">Program</span>
+		{
+			<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)</span>
+			{
+				Console.WriteLine(<span class="hljs-string">"Hello World!"</span>);
+			}
+		}
+	}
+</div></code></pre>
+<p>In the legacy code the <code>using</code> statement is inserted into the boilerplate code.</p>
+<p>Open the project in Visual Studio Code.</p>
+<pre class="prettyprint"><code><div>	dotnet build
+</div></code></pre>
+<p>or</p>
+<pre class="prettyprint"><code><div>	dotnet run
+</div></code></pre>
+<p>This command builds and runs the project in one command.</p>
+<p>Once you build the project .Net will add a new <code>Debug</code> folder that contains the executable.</p>
+<p>You will also notice that another folder named <code>.vscode</code> is created with some files that are used by Visual Studio Code to provide features like IntelliSense during debugging.</p>
+<h3 id="add-another-project-to-our-solution">Add another project to our solution</h3>
+<p>Create a new folder inside the <code>VSCode</code> folder.</p>
+<pre class="prettyprint"><code><div>	<span class="hljs-built_in">md</span> TopLevelProgram
+</div></code></pre>
+<p>Now, make another console program.</p>
+<pre class="prettyprint"><code><div>	dotnet new console -f net7.<span class="hljs-number">0</span>
+</div></code></pre>
+<p>This will be the new modern .Net core framework.</p>
+<p>Code for <code>Program.cs</code>.</p>
+<pre class="prettyprint"><code><div>	<span class="hljs-comment">// See https://aka.ms/new-console-template for more information</span>
+	Console.WriteLine(<span class="hljs-string">"Hello, World!"</span>);
+</div></code></pre>
+<p>Change the code to.</p>
+<pre class="prettyprint"><code><div>	<span class="hljs-comment">// See https://aka.ms/new-console-template for more information</span>
+	Console.WriteLine(<span class="hljs-string">"Hello, C#!"</span>);
+
+	Console.WriteLine(<span class="hljs-string">"Hello from a Top Level Program!"</span>);
+	Console.WriteLine(Environment.OSVersion.VersionString);
+</div></code></pre>
+<p>Run with.</p>
+<pre class="prettyprint"><code><div>	dotnet run
+</div></code></pre>
+<p>Output</p>
+<blockquote>
+<p>Hello, C#!<br>
+Hello from a Top Level Program!<br>
+Microsoft Windows NT 10.0.22621.0</p>
+</blockquote>
+<h3 id="managing-multiple-files-using-visual-studio-code">Managing multiple files using Visual Studio Code</h3>
+<p>If you have multiple files that you want to work with at the same time, then you can put them<br>
+side by side as you edit them:</p>
+<ol>
+<li>In EXPLORER, expand the two projects.</li>
+<li>Open both Program.cs files from the two projects.</li>
+<li>Click, hold, and drag the edit window tab for one of your open files to arrange them so that you can see both files at the same time.</li>
+</ol>
+
+
+
+</div><!-- starter-template -->
+</div><!-- /.container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"/>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+</body>
+</html>
