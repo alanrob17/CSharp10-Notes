@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ch02-Speaking-CSharp.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="speaking-csharp-c">Speaking CSharp (C#)</h1>
+<h2 id="importing-namespaces">Importing namespaces</h2>
+<p><code>System</code> is a namespace, which is like an address for a type.</p>
+<p><code>System.Console.WriteLine</code> tells the compiler to look for a method named WriteLine in a type named <strong>Console</strong> in a namespace named <strong>System</strong>. To simplify our code, the Console Application project template for every version of .NET before 6.0 added a statement at the top of the code file to tell the compiler to always look in the System namespace for types that haven't been prefixed with their namespace, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">using</span> System; <span class="hljs-comment">// import the System namespace</span>
+</div></code></pre>
+<p>We call this <em>importing the namespace</em>. The effect of importing a namespace is that all available types in that namespace will be available to your program without needing to enter the namespace prefix and will be seen in <strong>IntelliSense</strong> while you write code.</p>
+<h2 id="implicitly-and-globally-importing-namespaces">Implicitly and globally importing namespaces</h2>
+<p>Traditionally, every <strong>.cs</strong> file that needs to import namespaces would have to start with using statements to import those namespaces. Namespaces like <code>System</code> and <code>System.Linq</code> are needed in almost all .cs files, so the first few lines of every .cs file often had at least a few using statements, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">using</span> System;
+    <span class="hljs-keyword">using</span> System.Linq;
+    <span class="hljs-keyword">using</span> System.Collections.Generic;
+</div></code></pre>
+<p>C# 10 introduces some new features that simplify importing namespaces.</p>
+<p>First, the global using statement means you only need to import a namespace in one .cs file and it will be available throughout all .cs files. You could put global using statements in the <code>Program.cs</code> file but I recommend creating a separate file for those statements named something like <code>GlobalUsings.cs</code> or <code>GlobalNamespaces.cs</code>, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> System;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> System.Linq;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> System.Collections.Generic;
+</div></code></pre>
+<p>Create a new Solution in Visual Studio. For example, <code>HelloCS</code>.</p>
+<p>Go to the <strong>obj\Debug\net6.0</strong> folder, and open the file named <code>HelloCS.GlobalUsings.g.cs</code>.</p>
+<p>The following file is automatically generated for you.</p>
+<pre class="hljs"><code><div>    <span class="hljs-comment">// &lt;autogenerated /&gt;</span>
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System.Collections.Generic;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System.IO;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System.Linq;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System.Net.Http;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System.Threading;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System.Threading.Tasks;
+</div></code></pre>
+<p>You can add or remove global using statements by modifying the Solution's <strong>.csproj</strong> file.</p>
+<pre class="hljs"><code><div>    &lt;Project Sdk=<span class="hljs-string">"Microsoft.NET.Sdk"</span>&gt;
+
+      &lt;PropertyGroup&gt;
+        &lt;OutputType&gt;Exe&lt;/OutputType&gt;
+        &lt;TargetFramework&gt;net7<span class="hljs-number">.0</span>&lt;/TargetFramework&gt;
+        &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+        &lt;Nullable&gt;enable&lt;/Nullable&gt;
+      &lt;/PropertyGroup&gt;
+
+      &lt;ItemGroup&gt;
+        &lt;Using Remove=<span class="hljs-string">"System.Threading"</span> /&gt;
+        &lt;Using Include=<span class="hljs-string">"System.Numerics"</span> /&gt;
+      &lt;/ItemGroup&gt;
+    &lt;/Project&gt;
+</div></code></pre>
+<p>By adding an <strong>ItemGroup</strong> section in our project we can modify the global usings. Now when you open the <code>GlobalUsings</code> file it will look like this.</p>
+<pre class="hljs"><code><div>    <span class="hljs-comment">// &lt;auto-generated/&gt;</span>
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System.Collections.Generic;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System.IO;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System.Linq;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System.Net.Http;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System.Numerics;
+    <span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> <span class="hljs-keyword">global</span>::System.Threading.Tasks;
+</div></code></pre>
+<p>You can <strong>disable</strong> the implicitly imported namespaces feature for all SDKs by removing an entry in the project file, as shown in the following markup:</p>
+<pre class="hljs"><code><div>    &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+</div></code></pre>
+<h2 id="verbs-are-methods">Verbs are methods</h2>
+<p>In English, verbs are doing or action words, like run and jump. In C#, doing or action words are called <strong>methods</strong>. There are hundreds of thousands of methods available to C#.</p>
+<p>In C#, methods such as <code>WriteLine</code> change how they are called or executed based on the specifics of the action. This is called overloading. Consider the following example:</p>
+<pre class="hljs"><code><div>    <span class="hljs-comment">// outputs the current line terminator string</span>
+    <span class="hljs-comment">// by default, this is a carriage-return and line feed</span>
+    Console.WriteLine();
+
+    <span class="hljs-comment">// outputs the greeting and the current line terminator string</span>
+    Console.WriteLine(<span class="hljs-string">"Hello Ahmed"</span>);
+
+    <span class="hljs-comment">// outputs a formatted number and date and the current line terminator string</span>
+    Console.WriteLine(<span class="hljs-string">"Temperature on {0:D} is {1}°C."</span>, DateTime.Today, <span class="hljs-number">23.4</span>);
+</div></code></pre>
+<p>A different analogy is that some words are spelled the same but have different meanings depending on the context.</p>
+<h2 id="nouns-are-types-variables-fields-and-properties">Nouns are types, variables, fields, and properties</h2>
+<p>In English, nouns are names that refer to things. For example, Fido is the name of a dog. The word &quot;dog&quot; tells us the type of thing that Fido is, and so in order for Fido to fetch a ball, we would use his name.</p>
+<p>In C#, their equivalents are types, variables, fields, and properties. For example:</p>
+<ul>
+<li>Animal and Car are types; they are nouns for categorizing things.</li>
+<li>Head and Engine might be fields or properties; nouns that belong to Animal and Car.</li>
+<li>Fido and Bob are variables; nouns for referring to a specific object.</li>
+</ul>
+<p>There are tens of thousands of types available to C#, though have you noticed how I didn't say, &quot;There are tens of thousands of types in C#?&quot; The difference is subtle but important.</p>
+<p>The language of C# only has a few keywords for types, such as string and int, and strictly speaking, C# doesn't define any types. Keywords such as string that look like types are <strong>aliases</strong>, which represent types provided by the platform on which C# runs.</p>
+<p>It's important to know that C# cannot exist alone; after all, it's a language that runs on variants of .NET. In theory, someone could write a compiler for C# that uses a different platform, with different underlying types. In practice, the platform for C# is .NET, which provides tens of thousands of types to C#, including <code>System.Int32</code>, which is the C# keyword alias int maps to, as well as many more complex types, such as <code>System.Xml.Linq.XDocument</code>.</p>
+<p>It's worth taking note that the term <strong>type</strong> is often confused with <strong>class</strong>. Have you ever played the parlor game Twenty Questions, also known as Animal, Vegetable, or Mineral? In the game, everything can be categorized as an animal, vegetable, or mineral. In C#, every type can be categorized as a class, struct, enum, interface, or delegate. As examples, the C# keyword string is a class, but int is a struct. So, it is best to use the term type to refer to both.</p>
+<h2 id="revealing-the-extent-of-the-c-vocabulary">Revealing the extent of the C# vocabulary</h2>
+<p>We know that there are more than 100 keywords in C#, but how many types are there? Let's write some code to find out how many types (and their methods) are available to C# in our simple console application.</p>
+<p>Add the following using statement to the top of the code.</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">using</span> System.Reflection;
+</div></code></pre>
+<p>then.</p>
+<pre class="hljs"><code><div>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)</span>
+    {
+        Assembly? assembly = Assembly.GetEntryAssembly();
+    
+        <span class="hljs-keyword">if</span> (assembly == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;
+    
+        <span class="hljs-comment">// loop through the assemblies that this app references</span>
+        <span class="hljs-keyword">foreach</span> (AssemblyName name <span class="hljs-keyword">in</span> assembly.GetReferencedAssemblies())
+        {
+            <span class="hljs-comment">// load the assembly so we can read its details</span>
+            Assembly a = Assembly.Load(name);
+    
+            <span class="hljs-comment">// declare a variable to count the number of methods</span>
+            <span class="hljs-keyword">int</span> methodCount = <span class="hljs-number">0</span>;
+    
+            <span class="hljs-comment">// loop through all the types in the assembly</span>
+            <span class="hljs-keyword">foreach</span> (TypeInfo t <span class="hljs-keyword">in</span> a.DefinedTypes)
+            {
+                <span class="hljs-comment">// add up the counts of methods</span>
+                methodCount += t.GetMethods().Count();
+            }
+    
+            <span class="hljs-comment">// output the count of types and their methods</span>
+            Console.WriteLine(<span class="hljs-string">"{0:N0} types with {1:N0} methods in {2} assembly."</span>, arg0: a.DefinedTypes.Count(), arg1:methodCount, arg2: name.Name);
+        }
+    }
+</div></code></pre>
+<p>Results:</p>
+<blockquote>
+<p>0 types with 0 methods in System.Runtime assembly.<br>
+108 types with 1,141 methods in System.Linq assembly.<br>
+46 types with 670 methods in System.Console assembly.</p>
+</blockquote>
+<p><strong>Note:</strong> Why does the <code>System.Runtime</code> assembly contain zero types? This assembly is special because it contains only type-forwarders rather than actual types. A type-forwarder represents a type that has been implemented outside of .NET or for some other advanced reason.</p>
+<p>Add some other using statements into the <code>Main()</code> method.</p>
+<pre class="hljs"><code><div>    System.Data.DataSet ds;
+    HttpClient client;
+</div></code></pre>
+<p>Now, run the program again and you will get the following results.</p>
+<blockquote>
+<p>0 types with 0 methods in System.Runtime assembly.<br>
+400 types with 7,038 methods in System.Data.Common assembly.<br>
+426 types with 4,613 methods in System.Net.Http assembly.<br>
+108 types with 1,141 methods in System.Linq assembly.<br>
+46 types with 670 methods in System.Console assembly.</p>
+</blockquote>
+<p>Now, you have a better sense of why learning C# is a challenge, because there are so many types and methods to learn. Methods are only one category of a member that a type can have, and you and other programmers are constantly defining new types and members!</p>
+<h2 id="working-with-variables">Working with variables</h2>
+<p>All applications process data. Data comes in, data is processed, and then data goes out.</p>
+<p>Data usually comes into our program from files, databases, or user input, and it can be put temporarily into variables that will be stored in the memory of the running program. When the program ends, the data in memory is lost. Data is usually output to files and databases, or to the screen or a printer. When using variables, you should think about, firstly, how much space the variable takes in the memory, and, secondly, how fast it can be processed.</p>
+<p>We control this by picking an appropriate type. You can think of simple common types such as <code>int</code> and <code>double</code> as being different-sized storage boxes, where a smaller box would take less memory but may not be as fast at being processed; for example, adding 16-bit numbers might not be processed as fast as adding 64-bit numbers on a 64-bit operating system. Some of these boxes may be stacked close by, and some may be thrown into a big heap further away.</p>
+<h2 id="naming-things-and-assigning-values">Naming things and assigning values</h2>
+<p>There are naming conventions for things, and it is good practice to follow them.</p>
+<p>Camel case - cost, orderDetail, dateOfBirth - for Local variables, private fields</p>
+<p>Title case aka Pascal case - String, Int32, Cost, DateOfBirth, Run - Types, non-private fields, and other members like methods.</p>
+<p>Creating and using local variables.</p>
+<pre class="hljs"><code><div>    <span class="hljs-comment">// let the heightInMetres variable become equal to the value 1.88</span>
+    <span class="hljs-keyword">double</span> heightInMetres = <span class="hljs-number">1.88</span>;
+
+    Console.WriteLine(<span class="hljs-string">$"The variable <span class="hljs-subst">{<span class="hljs-keyword">nameof</span>(heightInMetres)}</span> has the value <span class="hljs-subst">{heightInMetres}</span>."</span>);
+</div></code></pre>
+<blockquote>
+<p>The variable heightInMetres has the value 1.88.</p>
+</blockquote>
+<h2 id="literal-values">Literal values</h2>
+<p>When you assign to a variable, you often, but not always, assign a literal value. But what is a literal value? A literal is a notation that represents a fixed value. Data types have different notations for their literal values.</p>
+<p>For text, multiple letters, such as Bob, are stored as a string type and are assigned using double quotes around the literal value, or assigning the return value of a function call, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">string</span> firstName = <span class="hljs-string">"Bob"</span>; <span class="hljs-comment">// assigning literal strings</span>
+    <span class="hljs-keyword">string</span> lastName = <span class="hljs-string">"Smith"</span>;
+    <span class="hljs-keyword">string</span> phoneNumber = <span class="hljs-string">"(215) 555-4256"</span>;
+
+    <span class="hljs-comment">// assigning a string returned from a fictitious function</span>
+    <span class="hljs-keyword">string</span> address = GetAddressFromDatabase(id: <span class="hljs-number">563</span>);
+</div></code></pre>
+<h2 id="understanding-verbatim-strings">Understanding verbatim strings</h2>
+<p>When storing text in a string variable, you can include escape sequences, which represent special characters like tabs and new lines using a backslash, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">string</span> fullNameWithTabSeparator = <span class="hljs-string">"Bob\tSmith"</span>;
+</div></code></pre>
+<p>But what if you are storing the path to a file on Windows, and one of the folder names starts with a T, as shown in the following code?</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">string</span> filePath = <span class="hljs-string">"C:\televisions\sony\bravia.txt"</span>;
+</div></code></pre>
+<p>The compiler will convert the \t into a tab character and you will get errors!</p>
+<p>You must prefix with the @ symbol to use a verbatim literal string, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">string</span> filePath = <span class="hljs-string">@"C:\televisions\sony\bravia.txt"</span>;
+</div></code></pre>
+<p>To summarise:</p>
+<ul>
+<li><strong>Literal string</strong>: Characters enclosed in double-quote characters. They can use escape characters like \t for tab. To represent a backslash, use two: \.</li>
+<li><strong>Verbatim string</strong>: A literal string prefixed with @ to disable escape characters so that a backslash is a backslash. It also allows the string value to span multiple lines because the white space characters are treated as themselves instead of instructions to the compiler.</li>
+<li><strong>Interpolated string</strong>: A literal string prefixed with $ to enable embedded formatted variables. You will learn more about this later.</li>
+</ul>
+<h2 id="storing-numbers">Storing numbers</h2>
+<p>Numbers are data that we want to perform an arithmetic calculation on, for example, multiplying. A telephone number is not a number. To decide whether a variable should be stored as a number or not, ask yourself whether you need to perform arithmetic operations on the number or whether the number includes non-digit characters such as parentheses or<br>
+hyphens to format the number, such as (414) 555-1234. In this case, the number is a sequence of characters, so it should be stored as a string.</p>
+<p>Numbers can be natural numbers, such as <strong>42</strong>, used for counting (also called whole numbers); they can also be negative numbers, such as <em>-42</em> (called integers); or, they can be real numbers, such as <strong>3.9</strong> (with a fractional part), which are called single- or double-precision floating-point numbers in computing.</p>
+<p>Let's explore numbers:</p>
+<pre class="hljs"><code><div>    <span class="hljs-comment">// unsigned integer means positive whole number or 0</span>
+    <span class="hljs-keyword">uint</span> naturalNumber = <span class="hljs-number">23</span>;
+
+    <span class="hljs-comment">// integer means negative or positive whole number or 0</span>
+    <span class="hljs-keyword">int</span> integerNumber = <span class="hljs-number">-23</span>;
+
+    <span class="hljs-comment">// float means single-precision floating point</span>
+    <span class="hljs-comment">// F suffix makes it a float literal</span>
+    <span class="hljs-keyword">float</span> realNumber = <span class="hljs-number">2.3F</span>;
+    
+    <span class="hljs-comment">// double means double-precision floating point</span>
+    <span class="hljs-keyword">double</span> anotherRealNumber = <span class="hljs-number">2.3</span>; <span class="hljs-comment">// double literal</span>
+</div></code></pre>
+<h2 id="improving-legibility-by-using-digit-separators">Improving legibility by using digit separators</h2>
+<p>Two of the improvements seen in C# 7.0 and later are the use of the underscore character _ as a digit separator, and support for binary literals.</p>
+<p>You can insert underscores anywhere into the digits of a number literal, including decimal, binary, or hexadecimal notation, to improve legibility.</p>
+<pre class="hljs"><code><div>    <span class="hljs-comment">// three variables that store the number 2 million</span>
+    <span class="hljs-keyword">int</span> decimalNotation = <span class="hljs-number">2</span>_000_000;
+    <span class="hljs-keyword">int</span> binaryNotation = <span class="hljs-number">0b</span>_0001_1110_1000_0100_1000_0000;
+    <span class="hljs-keyword">int</span> hexadecimalNotation = <span class="hljs-number">0</span>x_001E_8480;
+</div></code></pre>
+<h2 id="storing-real-numbers">Storing real numbers</h2>
+<p>Computers cannot always represent real, aka decimal or non-integer, numbers precisely. The float and double types store real numbers using single- and double-precision floating points.</p>
+<h2 id="writing-code-to-explore-number-sizes">Writing code to explore number sizes</h2>
+<p>C# has an operator named <code>sizeof()</code> that returns the number of bytes that a type uses in memory. Some types have members named <code>MinValue</code> and <code>MaxValue</code>, which return the minimum and maximum values that can be stored in a variable of that type. We are now going to use these features to create a console application to explore number types:</p>
+<pre class="hljs"><code><div>Console.WriteLine(<span class="hljs-string">$"int uses <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>)}</span> bytes and can store numbers in the range <span class="hljs-subst">{<span class="hljs-keyword">int</span>.MinValue:N0}</span> to <span class="hljs-subst">{<span class="hljs-keyword">int</span>.MaxValue:N0}</span>."</span>);
+Console.WriteLine(<span class="hljs-string">$"double uses <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">double</span>)}</span> bytes and can store numbers in the range <span class="hljs-subst">{<span class="hljs-keyword">double</span>.MinValue:N0}</span> to <span class="hljs-subst">{<span class="hljs-keyword">double</span>.MaxValue:N0}</span>."</span>);
+Console.WriteLine(<span class="hljs-string">$"decimal uses <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">decimal</span>)}</span> bytes and can store numbers in the range <span class="hljs-subst">{<span class="hljs-keyword">decimal</span>.MinValue:N0}</span> to <span class="hljs-subst">{<span class="hljs-keyword">decimal</span>.MaxValue:N0}</span>."</span>);
+</div></code></pre>
+<p>Results:</p>
+<blockquote>
+<p>int uses 4 bytes and can store numbers in the range -2,147,483,648 to 2,147,483,647.<br>
+double uses 8 bytes and can store numbers in the range -179,769,313,486,231,570,814,527,423,731,704,356,798,070,567,525,844,996,598,917,476,803,157,260,780,028,538,760,589,558,632,766,878,171,540,458,953,514,382,464,234,321,326,889,464,182,768,467,546,703,537,516,986,049,910,576,551,282,076,245,490,090,389,328,944,075,868,508,455,133,942,304,583,236,903,222,948,165,808,559,332,123,348,274,797,826,204,144,723,168,738,177,180,919,299,881,250,404,026,184,124,858,368 to 179,769,313,486,231,570,814,527,423,731,704,356,798,070,567,525,844,996,598,917,476,803,157,260,780,028,538,760,589,558,632,766,878,171,540,458,953,514,382,464,234,321,326,889,464,182,768,467,546,703,537,516,986,049,910,576,551,282,076,245,490,090,389,328,944,075,868,508,455,133,942,304,583,236,903,222,948,165,808,559,332,123,348,274,797,826,204,144,723,168,738,177,180,919,299,881,250,404,026,184,124,858,368.<br>
+decimal uses 16 bytes and can store numbers in the range -79,228,162,514,264,337,593,543,950,335 to 79,228,162,514,264,337,593,543,950,335.</p>
+</blockquote>
+<p>An int variable uses four bytes of memory and can store positive or negative numbers up to about 2 billion. A double variable uses eight bytes of memory and can store much bigger values! A decimal variable uses 16 bytes of memory and can store big numbers, but not as big as a double type.</p>
+<p>But you may be asking yourself, why might a double variable be able to store bigger numbers than a decimal variable, yet it's only using half the space in memory?</p>
+<p>The double type is not guaranteed to be accurate because some numbers like 0.1 literally cannot be represented as floating-point values.</p>
+<p>As a rule of thumb, you should only use double when accuracy, especially when comparing the equality of two numbers, is not important. An example of this may be when you're measuring a person's height and you will only compare values using greater than or less than, but never equals.</p>
+<p>The decimal type is accurate because it stores the number as a large integer and shifts the decimal point. For example, 0.1 is stored as 1, with a note to shift the decimal point one place to the left. 12.75 is stored as 1275, with a note to shift the decimal point two places to the left.</p>
+<p><strong>Good Practice:</strong> Use int for whole numbers. Use double for real numbers that will not be compared for equality to other values; it is okay to compare double values being less than or greater than, and so on. Use decimal for money,<br>
+CAD drawings, general engineering, and wherever the accuracy of a real number is important.</p>
+<h2 id="storing-booleans">Storing Booleans</h2>
+<p>Booleans can only contain one of the two literal values true or false, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">bool</span> happy = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">bool</span> sad = <span class="hljs-literal">false</span>;
+</div></code></pre>
+<p>They are most commonly used to branch and loop.</p>
+<h2 id="storing-any-type-of-object">Storing any type of object</h2>
+<p>There is a special type named <code>object</code> that can store any type of data, but its flexibility comes at the cost of messier code and possibly poor performance. Because of those two reasons, you should avoid it whenever possible. The following steps show how to use object types if you need to use them:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">object</span> height = <span class="hljs-number">1.88</span>; <span class="hljs-comment">// storing a double in an object</span>
+    <span class="hljs-keyword">object</span> name = <span class="hljs-string">"Amir"</span>; <span class="hljs-comment">// storing a string in an object</span>
+    
+    Console.WriteLine(<span class="hljs-string">$"<span class="hljs-subst">{name}</span> is <span class="hljs-subst">{height}</span> metres tall."</span>);
+    
+    <span class="hljs-comment">// int length1 = name.Length; // gives compile error!</span>
+    <span class="hljs-keyword">int</span> length2 = ((<span class="hljs-keyword">string</span>)name).Length; <span class="hljs-comment">// tell compiler it is a string</span>
+    Console.WriteLine(<span class="hljs-string">$"<span class="hljs-subst">{name}</span> has <span class="hljs-subst">{length2}</span> characters."</span>);
+</div></code></pre>
+<p>Result:</p>
+<blockquote>
+<p>Amir is 1.88 metres tall.<br>
+Amir has 4 characters.</p>
+</blockquote>
+<h2 id="storing-dynamic-types">Storing dynamic types</h2>
+<p>There is another special type named <code>dynamic</code> that can also store any type of data, but even more than object, its flexibility comes at the cost of performance. The dynamic keyword was introduced in C# 4.0. However, unlike object, the value stored in the variable can have its members invoked without an explicit cast. Let's make use of a dynamic type:</p>
+<pre class="hljs"><code><div>    <span class="hljs-comment">// storing a string in a dynamic object</span>
+    <span class="hljs-comment">// string has a Length property</span>
+    <span class="hljs-keyword">dynamic</span> something = <span class="hljs-string">"Ahmed"</span>;
+    
+    <span class="hljs-comment">// int does not have a Length property</span>
+    <span class="hljs-comment">// something = 12;</span>
+    <span class="hljs-comment">// an array of any type has a Length property</span>
+    <span class="hljs-comment">// something = new[] { 3, 5, 7 }</span>
+    
+    <span class="hljs-comment">// this compiles but would throw an exception at run-time</span>
+    <span class="hljs-comment">// if you later store a data type that does not have a</span>
+    <span class="hljs-comment">// property named Length</span>
+    Console.WriteLine(<span class="hljs-string">$"Length is <span class="hljs-subst">{something.Length}</span>"</span>);
+</div></code></pre>
+<blockquote>
+<p>Length is 5</p>
+</blockquote>
+<p>Now, try this.</p>
+<pre class="hljs"><code><div>    <span class="hljs-comment">// storing a string in a dynamic object</span>
+    <span class="hljs-comment">// string has a Length property</span>
+    <span class="hljs-keyword">dynamic</span> something = <span class="hljs-string">"Ahmed  
+    
+    // int does not have a Length property
+    something = 12;
+    
+    // an array of any type has a Length property
+    // something = new[] { 3, 5, 7 }
+
+    // this compiles but would throw an exception at run-time
+    // if you later store a data type that does not have a
+    // property named Length
+    Console.WriteLine($"</span>Length <span class="hljs-keyword">is</span> {something.Length}<span class="hljs-string">");
+</span></div></code></pre>
+<p>This compiles but throws the runtime error.</p>
+<blockquote>
+<p>Unhandled exception. Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: 'int' does not contain a definition for 'Length'</p>
+</blockquote>
+<p>Now, try an array and this does have a property named Length.</p>
+<pre class="hljs"><code><div>    <span class="hljs-comment">// storing a string in a dynamic object</span>
+    <span class="hljs-comment">// string has a Length property</span>
+    <span class="hljs-keyword">dynamic</span> something = <span class="hljs-string">"Ahmed"</span>;
+
+    <span class="hljs-comment">// int does not have a Length property</span>
+    <span class="hljs-comment">// something = 12;</span>
+
+    <span class="hljs-comment">// an array of any type has a Length property</span>
+    something = <span class="hljs-keyword">new</span>[] { <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span> };
+
+    <span class="hljs-comment">// this compiles but would throw an exception at run-time</span>
+    <span class="hljs-comment">// if you later store a data type that does not have a</span>
+    <span class="hljs-comment">// property named Length</span>
+    Console.WriteLine(<span class="hljs-string">$"Length is <span class="hljs-subst">{something.Length}</span>"</span>);
+</div></code></pre>
+<blockquote>
+<p>Length is 3</p>
+</blockquote>
+<p>One limitation of dynamic is that code editors cannot show <em>IntelliSense</em> to help you write the code. This is because the compiler cannot check what the type is during build time. Instead, the CLR checks for the member at runtime and throws an exception if it is missing.</p>
+<h2 id="declaring-local-variables">Declaring local variables</h2>
+<p>Local variables are declared inside methods, and they only exist during the execution of that method, and once the method returns, the memory allocated to any local variables is released. Strictly speaking, value types are released while reference types must wait for a garbage collection.</p>
+<h3 id="specifying-the-type-of-a-local-variable">Specifying the type of a local variable</h3>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">int</span> population = <span class="hljs-number">66</span>_000_000; <span class="hljs-comment">// 66 million in UK</span>
+    <span class="hljs-keyword">double</span> weight = <span class="hljs-number">1.88</span>; <span class="hljs-comment">// in kilograms</span>
+    <span class="hljs-keyword">decimal</span> price = <span class="hljs-number">4.99</span>M; <span class="hljs-comment">// in pounds sterling</span>
+    <span class="hljs-keyword">string</span> fruit = <span class="hljs-string">"Apples"</span>; <span class="hljs-comment">// strings use double-quotes</span>
+    <span class="hljs-keyword">char</span> letter = <span class="hljs-string">'Z'</span>; <span class="hljs-comment">// chars use single-quotes</span>
+    <span class="hljs-keyword">bool</span> happy = <span class="hljs-literal">true</span>; <span class="hljs-comment">// Booleans have value of true or false</span>
+</div></code></pre>
+<h3 id="inferring-the-type-of-a-local-variable">Inferring the type of a local variable</h3>
+<p>You can use the var keyword to declare local variables. The compiler will infer the type from the value that you assign after the assignment operator, =.</p>
+<p>A literal number without a decimal point is inferred as an int variable, that is, unless you add a suffix, as described in the following list:</p>
+<ul>
+<li>L: infers long</li>
+<li>UL: infers ulong</li>
+<li>M: infers decimal</li>
+<li>D: infers double</li>
+<li>F: infers float</li>
+</ul>
+<p>A literal number with a decimal point is inferred as double unless you add the <code>M</code> suffix, in which case, it infers a decimal variable, or the F suffix, in which case, it infers a float variable.</p>
+<p>Double quotes indicate a string variable, single quotes indicate a char variable, and the true and false values infer a bool type:</p>
+<p>Modify the previous statements to use var, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">var</span> population = <span class="hljs-number">66</span>_000_000; <span class="hljs-comment">// 66 million in UK</span>
+    <span class="hljs-keyword">var</span> weight = <span class="hljs-number">1.88</span>; <span class="hljs-comment">// in kilograms</span>
+    <span class="hljs-keyword">var</span> price = <span class="hljs-number">4.99</span>M; <span class="hljs-comment">// in pounds sterling</span>
+    <span class="hljs-keyword">var</span> fruit = <span class="hljs-string">"Apples"</span>; <span class="hljs-comment">// strings use double-quotes</span>
+    <span class="hljs-keyword">var</span> letter = <span class="hljs-string">'Z'</span>; <span class="hljs-comment">// chars use single-quotes</span>
+    <span class="hljs-keyword">var</span> happy = <span class="hljs-literal">true</span>; <span class="hljs-comment">// Booleans have value of true or false</span>
+</div></code></pre>
+<p>Hover your mouse over each of the <code>var</code> keywords and note that your code editor shows a tooltip with information about the type that has been inferred.</p>
+<p>Add the following using statement to your code.</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">using</span> System.Xml;
+</div></code></pre>
+<p>Now, add this code.</p>
+<pre class="hljs"><code><div>    <span class="hljs-comment">// good use of var because it avoids the repeated type</span>
+    <span class="hljs-comment">// as shown in the more verbose second statement</span>
+    <span class="hljs-keyword">var</span> xml1 = <span class="hljs-keyword">new</span> XmlDocument();
+    XmlDocument xml2 = <span class="hljs-keyword">new</span> XmlDocument();
+    
+    <span class="hljs-comment">// bad use of var because we cannot tell the type</span>
+    <span class="hljs-keyword">var</span> file1 = File.CreateText(<span class="hljs-string">"something1.txt"</span>);
+    
+    <span class="hljs-comment">// better to spell it out</span>
+    StreamWriter file2 = File.CreateText(<span class="hljs-string">"something2.txt"</span>);
+</div></code></pre>
+<p><strong>Good Practice:</strong> Although using <code>var</code> is convenient, some developers avoid using it, to make it easier for a code reader to understand the types in use. Personally, I use it only when the type is obvious. For example, in the preceding code statements, the first statement is just as clear as the second in stating what the type of the xml variables are,<br>
+but it is shorter. However, the third statement isn't clear in showing the type of the file variable, so the fourth is better because it shows that the type is StreamWriter.</p>
+<p><strong>If in doubt, spell it out!</strong></p>
+<h2 id="using-target-typed-new-to-instantiate-objects">Using target-typed new to instantiate objects</h2>
+<p>With C# 9, Microsoft introduced another syntax for instantiating objects known as target-typed <code>new</code>. When instantiating an object, you can specify the type first and then use new without repeating the type, as shown in the following code:</p>
+<pre class="hljs"><code><div>    XmlDocument xml3 = <span class="hljs-keyword">new</span>(); <span class="hljs-comment">// target-typed new in C# 9 or later </span>
+</div></code></pre>
+<p>If you have a type with a field or property that needs to be set, then the type can be inferred, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>
+    {
+        <span class="hljs-keyword">public</span> DateTime BirthDate;
+    }
+
+    Person kim = <span class="hljs-keyword">new</span>();
+    kim.BirthDate = <span class="hljs-keyword">new</span>(<span class="hljs-number">1967</span>, <span class="hljs-number">12</span>, <span class="hljs-number">26</span>); <span class="hljs-comment">// instead of: new DateTime(1967, 12, 26)</span>
+</div></code></pre>
+<p><strong>Good Practice:</strong> Use target-typed <code>new</code> to instantiate objects unless you must use a pre-version 9 C# compiler.</p>
+<h2 id="getting-and-setting-the-default-values-for-types">Getting and setting the default values for types</h2>
+<p>Most of the primitive types except string are <strong>value types</strong>, which means that they must have a value. You can determine the default value of a type by using the default() operator and passing the type as a parameter. You can assign the default value of a type by using the <code>default</code> keyword.</p>
+<p>The string type is a <strong>reference type</strong>. This means that string variables contain the memory address of a value, not the value itself. A reference type variable can have a null value, which is a literal that indicates that the variable does not reference anything (yet). <code>null</code> is the default for all reference types.</p>
+<p>Let's explore default values:</p>
+<pre class="hljs"><code><div>    Console.WriteLine(<span class="hljs-string">$"default(int) = <span class="hljs-subst">{<span class="hljs-keyword">default</span>(<span class="hljs-keyword">int</span>)}</span>"</span>);
+    Console.WriteLine(<span class="hljs-string">$"default(bool) = <span class="hljs-subst">{<span class="hljs-keyword">default</span>(<span class="hljs-keyword">bool</span>)}</span>"</span>);
+    Console.WriteLine(<span class="hljs-string">$"default(DateTime) = <span class="hljs-subst">{<span class="hljs-keyword">default</span>(DateTime)}</span>"</span>);
+    Console.WriteLine(<span class="hljs-string">$"default(string) = <span class="hljs-subst">{<span class="hljs-keyword">default</span>(<span class="hljs-keyword">string</span>)}</span>"</span>);
+</div></code></pre>
+<p>Returns:</p>
+<blockquote>
+<p>default(int) = 0<br>
+default(bool) = False<br>
+default(DateTime) = 1/01/0001 12:00:00 AM<br>
+default(string) =</p>
+</blockquote>
+<p>Now, declare a number.</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">int</span> number = <span class="hljs-number">13</span>;
+    Console.WriteLine(<span class="hljs-string">$"number has been set to: <span class="hljs-subst">{number}</span>"</span>);
+    number = <span class="hljs-keyword">default</span>;
+    Console.WriteLine(<span class="hljs-string">$"number has been reset to its default: <span class="hljs-subst">{number}</span>"</span>);
+</div></code></pre>
+<p>Returns:</p>
+<blockquote>
+<p>number has been set to: 13<br>
+number has been reset to its default: 0</p>
+</blockquote>
+<h2 id="storing-multiple-values-in-an-array">Storing multiple values in an array</h2>
+<p>When you need to store multiple values of the same type, you can declare an array. For example, you may do this when you need to store four names in a string array. The code that you will write next will allocate memory for an array for storing four string values. It will then store string values at index positions 0 to 3 (arrays usually have a lower bound of zero, so the index of the last item is one less than the length of the array).</p>
+<p>Let's look at how to use an array:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">string</span>[] names; <span class="hljs-comment">// can reference any size array of strings</span>
+    
+    <span class="hljs-comment">// allocating memory for four strings in an array</span>
+    names = <span class="hljs-keyword">new</span> <span class="hljs-keyword">string</span>[<span class="hljs-number">4</span>];
+    
+    <span class="hljs-comment">// storing items at index positions</span>
+    names[<span class="hljs-number">0</span>] = <span class="hljs-string">"Kate"</span>;
+    names[<span class="hljs-number">1</span>] = <span class="hljs-string">"Jack"</span>;
+    names[<span class="hljs-number">2</span>] = <span class="hljs-string">"Rebecca"</span>;
+    names[<span class="hljs-number">3</span>] = <span class="hljs-string">"Tom"</span>;
+
+    <span class="hljs-comment">// looping through the names</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; names.Length; i++)
+    {
+        <span class="hljs-comment">// output the item at index position i</span>
+        Console.WriteLine(names[i]);
+    }
+</div></code></pre>
+<p>Returns:</p>
+<blockquote>
+<p>Kate<br>
+Jack<br>
+Rebecca<br>
+Tom</p>
+</blockquote>
+<p>Arrays are always of a fixed size at the time of memory allocation, so you need to decide how many items you want to store before instantiating them.</p>
+<p>An alternative to defining the array in three steps as above is to use array initializer syntax, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">string</span>[] names2 = <span class="hljs-keyword">new</span>[] { <span class="hljs-string">"Kate"</span>, <span class="hljs-string">"Jack"</span>, <span class="hljs-string">"Rebecca"</span>, <span class="hljs-string">"Tom"</span> };
+</div></code></pre>
+<p>When you use the <code>new[]</code> syntax to allocate memory for the array, you must have at least one item in the curly braces so that the compiler can infer the data type.</p>
+<p>Arrays are useful for temporarily storing multiple items, but <strong>collections</strong> are a more flexible option when adding and removing items dynamically.</p>
+<h2 id="exploring-more-about-console-applications">Exploring more about console applications</h2>
+<p>We have already created and used basic console applications, but we're now at a stage where we should delve into them more deeply.</p>
+<p>Console applications are text-based and are run at the command line. They typically perform simple tasks that need to be scripted, such as compiling a file or encrypting a section of a configuration file.</p>
+<p>Equally, they can also have arguments passed to them to control their behavior.</p>
+<p>An example of this would be to create a new console app using the C# language with a specified name instead of using the name of the current folder, as shown in the following command line:</p>
+<pre class="hljs"><code><div>    dotnet new console -lang "C#" --name "ExploringConsole"
+</div></code></pre>
+<p>This code makes a ned folder named <code>ExploringConsole</code> with the contents of a new C# project in it.</p>
+<p>Add this code.</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">int</span> numberOfApples = <span class="hljs-number">12</span>;
+    <span class="hljs-keyword">decimal</span> pricePerApple = <span class="hljs-number">0.35</span>M;
+    
+    Console.WriteLine(format: <span class="hljs-string">"{0} apples costs {1:C}"</span>, arg0: numberOfApples, arg1: pricePerApple * numberOfApples);
+
+    <span class="hljs-keyword">string</span> formatted = <span class="hljs-keyword">string</span>.Format(format: <span class="hljs-string">"{0} apples costs {1:C}"</span>, arg0: numberOfApples, arg1: pricePerApple * numberOfApples);
+
+    <span class="hljs-comment">//WriteToFile(formatted); // writes the string into a file - nonexistent method</span>
+</div></code></pre>
+<p>You can simplify this with.</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">int</span> numberOfApples = <span class="hljs-number">12</span>;
+    <span class="hljs-keyword">decimal</span> pricePerApple = <span class="hljs-number">0.35</span>M;
+
+    Console.WriteLine(<span class="hljs-string">"{0} apples costs {1:C}"</span>, numberOfApples, pricePerApple * numberOfApples);
+
+    <span class="hljs-keyword">string</span> formatted = <span class="hljs-keyword">string</span>.Format(<span class="hljs-string">"{0} apples costs {1:C}"</span>, numberOfApples, pricePerApple * numberOfApples);
+
+    <span class="hljs-comment">// WriteToFile(formatted); // writes the string into a file</span>
+</div></code></pre>
+<h2 id="formatting-using-interpolated-strings">Formatting using interpolated strings</h2>
+<p>C# 6.0 and later have a handy feature named interpolated strings. A string prefixed with <code>$</code> can use curly braces around the name of a variable or expression to output the current value of that variable or expression at that position in the string, as the following shows:</p>
+<p>Enter this statement into your code.</p>
+<pre class="hljs"><code><div>    Console.WriteLine(<span class="hljs-string">$"<span class="hljs-subst">{numberOfApples}</span> apples costs <span class="hljs-subst">{pricePerApple * numberOfApples:C}</span>"</span>);
+</div></code></pre>
+<p>For short, formatted string values, an interpolated string can be easier for people to read. But for code examples in a book, where lines need to wrap over multiple lines, this can be tricky.</p>
+<p>Another reason to avoid interpolated strings is that they can't be read from resource files to be localized.</p>
+<p>Before C# 10, string constants could only be combined by using concatenation, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">string</span> firstName = <span class="hljs-string">"Omar"</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">string</span> lastName = <span class="hljs-string">"Rudberg"</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">string</span> fullName = firstName + <span class="hljs-string">" "</span> + lastName;
+</div></code></pre>
+<p>With C# 10, interpolated strings can now be used, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">string</span> fullName = <span class="hljs-string">"{firstName} {lastName}"</span>;
+</div></code></pre>
+<p>This only works for combining string constant values. It cannot work with other types like numbers that would require runtime data type conversions.</p>
+<h2 id="understanding-format-strings">Understanding format strings</h2>
+<p>A variable or expression can be formatted using a format string after a comma or colon. An <code>N0</code> format string means a number with a thousand separators and no decimal places, while a <code>C</code> format string means currency. The currency format will be determined by the current thread.</p>
+<p>For instance, if you run this code on a PC in the UK, you'll get pounds sterling with commas as the thousand separators, but if you run this code on a PC in Germany, you will get euros with dots as the thousand separators.</p>
+<p>The full syntax of a format item is:</p>
+<pre class="hljs"><code><div>    { index [, alignment ] [ : formatString ] }
+</div></code></pre>
+<p>Each format item can have an alignment, which is useful when outputting tables of values, some of which might need to be left- or right-aligned within a width of characters. Alignment values are integers. Positive integers mean right-aligned and negative integers mean left-aligned.</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">string</span> applesText = <span class="hljs-string">"Apples"</span>;
+    <span class="hljs-keyword">int</span> applesCount = <span class="hljs-number">1234</span>;
+    <span class="hljs-keyword">string</span> bananasText = <span class="hljs-string">"Bananas"</span>;
+    <span class="hljs-keyword">int</span> bananasCount = <span class="hljs-number">56789</span>;
+    
+    Console.WriteLine(format: <span class="hljs-string">"{0,-10} {1,6:N0}"</span>, arg0: <span class="hljs-string">"Name"</span>, arg1: <span class="hljs-string">"Count"</span>);
+
+    Console.WriteLine(format: <span class="hljs-string">"{0,-10} {1,6:N0}"</span>, arg0: applesText, arg1: applesCount);
+
+    Console.WriteLine(format: <span class="hljs-string">"{0,-10} {1,6:N0}"</span>, arg0: bananasText, arg1: bananasCount);
+</div></code></pre>
+<p>Returns:</p>
+<blockquote>
+<p>Name        Count<br>
+Apples      1,234<br>
+Bananas    56,789</p>
+</blockquote>
+<h2 id="getting-text-input-from-the-user">Getting text input from the user</h2>
+<p>We can get text input from the user using the ReadLine method. This method waits for the user to type some text, then as soon as the user presses Enter, whatever the user has typed is returned as a string value.</p>
+<pre class="hljs"><code><div>    Console.Write(<span class="hljs-string">"Type your first name and press ENTER: "</span>);
+
+    <span class="hljs-keyword">string</span>? firstName = Console.ReadLine();
+
+    Console.Write(<span class="hljs-string">"Type your age and press ENTER: "</span>);
+    
+    <span class="hljs-keyword">string</span>? age = Console.ReadLine();
+    
+    Console.WriteLine(<span class="hljs-string">$"Hello <span class="hljs-subst">{firstName}</span>, you look good for <span class="hljs-subst">{age}</span>."</span>);
+</div></code></pre>
+<p>Returns:</p>
+<blockquote>
+<p>Type your first name and press ENTER: Alan<br>
+Type your age and press ENTER: 71<br>
+Hello Alan, you look good for 71.</p>
+</blockquote>
+<p><code>Note:</code> The question marks at the end of the <code>string?</code> data type declaration indicate that we acknowledge that a <strong>null (empty)</strong> value could be returned from the call to <code>ReadLine</code>.</p>
+<h2 id="simplifying-the-usage-of-the-console">Simplifying the usage of the console</h2>
+<p>In C# 6.0 and later, the using statement can be used not only to import a namespace but also to further simplify our code by importing a static class. Then, we won't need to enter the <code>Console</code> type name throughout our code. You can use your code editor's find and replace feature to remove the times we have previously written <code>Console</code>:</p>
+<p>Add a statement to statically import the <code>System.Console</code> class, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">using</span> <span class="hljs-keyword">static</span> System.Console;
+</div></code></pre>
+<p>Now, this will work.</p>
+<pre class="hljs"><code><div>    Write(<span class="hljs-string">"Type your first name and press ENTER: "</span>);
+
+    <span class="hljs-keyword">string</span>? firstName = Console.ReadLine();
+
+    Write(<span class="hljs-string">"Type your age and press ENTER: "</span>);
+    
+    <span class="hljs-keyword">string</span>? age = Console.ReadLine();
+    
+    WriteLine(<span class="hljs-string">$"Hello <span class="hljs-subst">{firstName}</span>, you look good for <span class="hljs-subst">{age}</span>."</span>);
+</div></code></pre>
+<h2 id="getting-key-input-from-the-user">Getting key input from the user</h2>
+<p>We can get key input from the user using the ReadKey method. This method waits for the user to press a key or key combination that is then returned as a <code>ConsoleKeyInfo</code> value.</p>
+<pre class="hljs"><code><div>    Write(<span class="hljs-string">"Press any key combination: "</span>);
+
+    ConsoleKeyInfo key = ReadKey();
+    
+    WriteLine();
+    WriteLine(<span class="hljs-string">"Key: {0}, Char: {1}, Modifiers: {2}"</span>, arg0: key.Key, arg1: key.KeyChar, arg2: key.Modifiers);
+</div></code></pre>
+<p>returns:</p>
+<blockquote>
+<p>Press any key combination: a<br>
+Key: A, Char: a, Modifiers: 0</p>
+</blockquote>
+<h2 id="passing-arguments-to-a-console-app">Passing arguments to a console app</h2>
+<p>You might have been wondering how to get any arguments that might be passed to a console<br>
+application.</p>
+<p>In every version of .NET prior to version 6.0, the console application project template made it<br>
+obvious, as shown in the following code:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">using</span> System;
+    
+    <span class="hljs-keyword">namespace</span> <span class="hljs-title">Arguments</span>
+    {
+        <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span>
+        {
+            <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)</span>
+            {
+                Console.WriteLine(<span class="hljs-string">"Hello World!"</span>);
+            }
+        }
+    }
+</div></code></pre>
+<p>The <code>string[]</code> args arguments are declared and passed in the Main method of the Program class. They're an array used to pass arguments into a console application. But in top-level programs, as used by the console application project template in .NET 6.0 and later, the Program class and its Main method are hidden, along with the declaration of the args string array. The trick is that you must know it still exists.</p>
+<p>Command-line arguments are separated by spaces. Other characters like hyphens and colons are treated as part of an argument value.</p>
+<p>To include spaces in an argument value, enclose the argument value in single or double quotes.</p>
+<p>Run the following command.</p>
+<blockquote>
+<p>$ dotnet run blue red green<br>
+There are 3 arguments.</p>
+</blockquote>
+<p><code>blue, red and green</code> are the three arguments.</p>
+<p>Run again with:</p>
+<blockquote>
+<p>$ dotnet run &quot;light blue&quot; red green<br>
+There are 3 arguments.</p>
+</blockquote>
+<p>Enclose spaces in an argument with double quotes otherwise you will end up with 4 arguments.</p>
+<p><strong>Note:</strong> If you are using Visual Studio, then navigate to <strong>Project | Arguments</strong> Properties, select the <strong>Debug</strong> tab, and in the Application arguments box, enter some arguments, save the changes, and then run the console application.</p>
+<h2 id="setting-options-with-arguments">Setting options with arguments</h2>
+<p>We will now use these arguments to allow the user to pick a color for the background, foreground, and cursor size of the output window. The cursor size can be an integer value from 1, meaning a line at the bottom of the cursor cell, up to 100, meaning a percentage of the height of the cursor cell.</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">if</span> (args.Length &lt; <span class="hljs-number">3</span>)
+    {
+        Console.WriteLine(<span class="hljs-string">"You must specify two colors and cursor size, e.g."</span>);
+        Console.WriteLine(<span class="hljs-string">"dotnet run red yellow 50"</span>);
+        <span class="hljs-keyword">return</span>; <span class="hljs-comment">// stop running</span>
+    }
+
+    Console.ForegroundColor = (ConsoleColor)Enum.Parse(enumType: <span class="hljs-keyword">typeof</span>(ConsoleColor), <span class="hljs-keyword">value</span>: args[<span class="hljs-number">0</span>], ignoreCase: <span class="hljs-literal">true</span>);
+    
+    Console.BackgroundColor = (ConsoleColor)Enum.Parse(enumType: <span class="hljs-keyword">typeof</span>(ConsoleColor), <span class="hljs-keyword">value</span>: args[<span class="hljs-number">1</span>], ignoreCase: <span class="hljs-literal">true</span>);
+    
+    Console.CursorSize = <span class="hljs-keyword">int</span>.Parse(args[<span class="hljs-number">2</span>]);
+</div></code></pre>
+<p>Returns:</p>
+<p><img src="assets/images/commandline.jpg" alt="Coloured command line" title="Coloured command line"></p>
+<p><strong>Note:</strong> this only runs on a Windows command line, not a Bash shell command line.</p>
+<h3 id="exercise">Exercise</h3>
+<p>Create a console application project that outputs the following number types uses and the minimum and maximum values they can have: sbyte, byte, short, ushort, int, uint, long, ulong, float, double, and decimal.</p>
+<pre class="hljs"><code><div>Console.WriteLine(<span class="hljs-string">"--------------------------------------------------------------------------"</span>);
+Console.WriteLine(<span class="hljs-string">"Type    Byte(s) of memory               Min                            Max"</span>);
+Console.WriteLine(<span class="hljs-string">"--------------------------------------------------------------------------"</span>);
+Console.WriteLine(<span class="hljs-string">$"sbyte   <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">sbyte</span>),<span class="hljs-number">-4</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">sbyte</span>.MinValue,<span class="hljs-number">30</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">sbyte</span>.MaxValue,<span class="hljs-number">30</span>}</span>"</span>);
+Console.WriteLine(<span class="hljs-string">$"byte    <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">byte</span>),<span class="hljs-number">-4</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">byte</span>.MinValue,<span class="hljs-number">30</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">byte</span>.MaxValue,<span class="hljs-number">30</span>}</span>"</span>);
+Console.WriteLine(<span class="hljs-string">$"short   <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">short</span>),<span class="hljs-number">-4</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">short</span>.MinValue,<span class="hljs-number">30</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">short</span>.MaxValue,<span class="hljs-number">30</span>}</span>"</span>);
+Console.WriteLine(<span class="hljs-string">$"ushort  <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">ushort</span>),<span class="hljs-number">-4</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">ushort</span>.MinValue,<span class="hljs-number">30</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">ushort</span>.MaxValue,<span class="hljs-number">30</span>}</span>"</span>);
+Console.WriteLine(<span class="hljs-string">$"int     <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),<span class="hljs-number">-4</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">int</span>.MinValue,<span class="hljs-number">30</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">int</span>.MaxValue,<span class="hljs-number">30</span>}</span>"</span>);
+Console.WriteLine(<span class="hljs-string">$"uint    <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">uint</span>),<span class="hljs-number">-4</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">uint</span>.MinValue,<span class="hljs-number">30</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">uint</span>.MaxValue,<span class="hljs-number">30</span>}</span>"</span>);
+Console.WriteLine(<span class="hljs-string">$"long    <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">long</span>),<span class="hljs-number">-4</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">long</span>.MinValue,<span class="hljs-number">30</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">long</span>.MaxValue,<span class="hljs-number">30</span>}</span>"</span>);
+Console.WriteLine(<span class="hljs-string">$"ulong   <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">ulong</span>),<span class="hljs-number">-4</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">ulong</span>.MinValue,<span class="hljs-number">30</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">ulong</span>.MaxValue,<span class="hljs-number">30</span>}</span>"</span>);
+Console.WriteLine(<span class="hljs-string">$"float   <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">float</span>),<span class="hljs-number">-4</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">float</span>.MinValue,<span class="hljs-number">30</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">float</span>.MaxValue,<span class="hljs-number">30</span>}</span>"</span>);
+Console.WriteLine(<span class="hljs-string">$"double  <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">double</span>),<span class="hljs-number">-4</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">double</span>.MinValue,<span class="hljs-number">30</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">double</span>.MaxValue,<span class="hljs-number">30</span>}</span>"</span>);
+Console.WriteLine(<span class="hljs-string">$"decimal <span class="hljs-subst">{<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">decimal</span>),<span class="hljs-number">-4</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">decimal</span>.MinValue,<span class="hljs-number">30</span>}</span> <span class="hljs-subst">{<span class="hljs-keyword">decimal</span>.MaxValue,<span class="hljs-number">30</span>}</span>"</span>);
+Console.WriteLine(<span class="hljs-string">"--------------------------------------------------------------------------"</span>);
+</div></code></pre>
+<p>Returns:</p>
+<pre class="hljs"><code><div>--------------------------------------------------------------------------
+<span class="hljs-built_in">Type</span>    Byte(s) of memory               Min                            Max
+--------------------------------------------------------------------------
+sbyte   <span class="hljs-number">1</span>                              -<span class="hljs-number">128</span>                            <span class="hljs-number">127</span>
+byte    <span class="hljs-number">1</span>                                 <span class="hljs-number">0</span>                            <span class="hljs-number">255</span>
+short   <span class="hljs-number">2</span>                            -<span class="hljs-number">32768</span>                          <span class="hljs-number">32767</span>
+ushort  <span class="hljs-number">2</span>                                 <span class="hljs-number">0</span>                          <span class="hljs-number">65535</span>
+int     <span class="hljs-number">4</span>                       -<span class="hljs-number">2147483648</span>                     <span class="hljs-number">2147483647</span>
+uint    <span class="hljs-number">4</span>                                 <span class="hljs-number">0</span>                     <span class="hljs-number">4294967295</span>
+long    <span class="hljs-number">8</span>              -<span class="hljs-number">9223372036854775808</span>            <span class="hljs-number">9223372036854775807</span>
+ulong   <span class="hljs-number">8</span>                                 <span class="hljs-number">0</span>           <span class="hljs-number">18446744073709551615</span>
+float   <span class="hljs-number">4</span>                    -<span class="hljs-number">3</span>.<span class="hljs-number">4028235</span>E+<span class="hljs-number">38</span>                  <span class="hljs-number">3</span>.<span class="hljs-number">4028235</span>E+<span class="hljs-number">38</span>
+double  <span class="hljs-number">8</span>          -<span class="hljs-number">1</span>.<span class="hljs-number">7976931348623157</span>E+<span class="hljs-number">308</span>        <span class="hljs-number">1</span>.<span class="hljs-number">7976931348623157</span>E+<span class="hljs-number">308</span>
+decimal <span class="hljs-number">16</span>   -<span class="hljs-number">79228162514264337593543950335</span>  <span class="hljs-number">79228162514264337593543950335</span>
+--------------------------------------------------------------------------
+</div></code></pre>
+
+</body>
+</html>
