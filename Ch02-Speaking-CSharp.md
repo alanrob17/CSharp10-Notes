@@ -674,3 +674,172 @@ With C# 10, interpolated strings can now be used, as shown in the following code
 ```
 
 This only works for combining string constant values. It cannot work with other types like numbers that would require runtime data type conversions.
+
+## Understanding format strings
+
+A variable or expression can be formatted using a format string after a comma or colon. An ``N0`` format string means a number with a thousand separators and no decimal places, while a ``C`` format string means currency. The currency format will be determined by the current thread.
+
+For instance, if you run this code on a PC in the UK, you'll get pounds sterling with commas as the thousand separators, but if you run this code on a PC in Germany, you will get euros with dots as the thousand separators.
+
+The full syntax of a format item is:
+
+```csharp
+    { index [, alignment ] [ : formatString ] }
+```
+
+Each format item can have an alignment, which is useful when outputting tables of values, some of which might need to be left- or right-aligned within a width of characters. Alignment values are integers. Positive integers mean right-aligned and negative integers mean left-aligned.
+
+```csharp
+    string applesText = "Apples";
+    int applesCount = 1234;
+    string bananasText = "Bananas";
+    int bananasCount = 56789;
+    
+    Console.WriteLine(format: "{0,-10} {1,6:N0}", arg0: "Name", arg1: "Count");
+
+    Console.WriteLine(format: "{0,-10} {1,6:N0}", arg0: applesText, arg1: applesCount);
+
+    Console.WriteLine(format: "{0,-10} {1,6:N0}", arg0: bananasText, arg1: bananasCount);
+```
+
+Returns:
+
+> Name        Count     
+> Apples      1,234     
+> Bananas    56,789
+
+## Getting text input from the user
+
+We can get text input from the user using the ReadLine method. This method waits for the user to type some text, then as soon as the user presses Enter, whatever the user has typed is returned as a string value.
+
+```csharp
+    Console.Write("Type your first name and press ENTER: ");
+
+    string? firstName = Console.ReadLine();
+
+    Console.Write("Type your age and press ENTER: ");
+    
+    string? age = Console.ReadLine();
+    
+    Console.WriteLine($"Hello {firstName}, you look good for {age}.");
+```
+
+Returns:
+
+> Type your first name and press ENTER: Alan        
+> Type your age and press ENTER: 71     
+> Hello Alan, you look good for 71.
+
+``Note:`` The question marks at the end of the ``string?`` data type declaration indicate that we acknowledge that a **null (empty)** value could be returned from the call to ``ReadLine``. 
+
+## Simplifying the usage of the console
+
+In C# 6.0 and later, the using statement can be used not only to import a namespace but also to further simplify our code by importing a static class. Then, we won't need to enter the ``Console`` type name throughout our code. You can use your code editor's find and replace feature to remove the times we have previously written ``Console``:
+
+Add a statement to statically import the ``System.Console`` class, as shown in the following code:
+
+```csharp
+    using static System.Console;
+```
+
+Now, this will work.
+
+```csharp
+    Write("Type your first name and press ENTER: ");
+
+    string? firstName = Console.ReadLine();
+
+    Write("Type your age and press ENTER: ");
+    
+    string? age = Console.ReadLine();
+    
+    WriteLine($"Hello {firstName}, you look good for {age}.");
+```
+
+## Getting key input from the user
+
+We can get key input from the user using the ReadKey method. This method waits for the user to press a key or key combination that is then returned as a ``ConsoleKeyInfo`` value. 
+
+```csharp
+    Write("Press any key combination: ");
+
+    ConsoleKeyInfo key = ReadKey();
+    
+    WriteLine();
+    WriteLine("Key: {0}, Char: {1}, Modifiers: {2}", arg0: key.Key, arg1: key.KeyChar, arg2: key.Modifiers);
+```
+
+returns:
+
+> Press any key combination: a      
+> Key: A, Char: a, Modifiers: 0
+
+## Passing arguments to a console app
+
+You might have been wondering how to get any arguments that might be passed to a console
+application.
+
+In every version of .NET prior to version 6.0, the console application project template made it
+obvious, as shown in the following code:
+
+```csharp
+    using System;
+    
+    namespace Arguments
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                Console.WriteLine("Hello World!");
+            }
+        }
+    }
+```
+
+The ``string[]`` args arguments are declared and passed in the Main method of the Program class. They're an array used to pass arguments into a console application. But in top-level programs, as used by the console application project template in .NET 6.0 and later, the Program class and its Main method are hidden, along with the declaration of the args string array. The trick is that you must know it still exists.
+
+Command-line arguments are separated by spaces. Other characters like hyphens and colons are treated as part of an argument value.
+
+To include spaces in an argument value, enclose the argument value in single or double quotes.
+
+Run the following command.
+
+> $ dotnet run blue red green       
+> There are 3 arguments.
+
+``blue, red and green`` are the three arguments.
+
+Run again with:
+
+> $ dotnet run "light blue" red green       
+> There are 3 arguments.
+
+Enclose spaces in an argument with double quotes otherwise you will end up with 4 arguments.
+
+**Note:** If you are using Visual Studio, then navigate to **Project | Arguments** Properties, select the **Debug** tab, and in the Application arguments box, enter some arguments, save the changes, and then run the console application.
+
+## Setting options with arguments
+
+We will now use these arguments to allow the user to pick a color for the background, foreground, and cursor size of the output window. The cursor size can be an integer value from 1, meaning a line at the bottom of the cursor cell, up to 100, meaning a percentage of the height of the cursor cell.
+
+```csharp
+    if (args.Length < 3)
+    {
+        Console.WriteLine("You must specify two colors and cursor size, e.g.");
+        Console.WriteLine("dotnet run red yellow 50");
+        return; // stop running
+    }
+
+    Console.ForegroundColor = (ConsoleColor)Enum.Parse(enumType: typeof(ConsoleColor), value: args[0], ignoreCase: true);
+    
+    Console.BackgroundColor = (ConsoleColor)Enum.Parse(enumType: typeof(ConsoleColor), value: args[1], ignoreCase: true);
+    
+    Console.CursorSize = int.Parse(args[2]);
+```
+
+Returns:
+
+![Coloured command line](assets/images/commandline.jpg "Coloured command line")
+
+**Note:** this only runs on a Windows command line, not a Bash shell command line.
